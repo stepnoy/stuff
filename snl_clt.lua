@@ -44,7 +44,7 @@ end
 
 local function getService(hostname,service)
   dispenser.open(9261)
-  dispenser.send("broadcast",9261,hostname,service,)
+  dispenser.send("broadcast",9261,hostname,service)
   local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
   dispenser.close(9261)
   return addr,info

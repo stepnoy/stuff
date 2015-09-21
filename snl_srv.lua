@@ -98,4 +98,6 @@ end
 event.listen("dispenser",onModemMessage)
 dispenser.open(9261)
  
+addService("snl", nil, hostname, "Core SNL service")
+
 return {hostname = hostname,addService = addService,removeService = removeService,shutdown = shutdown}
