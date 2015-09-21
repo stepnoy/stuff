@@ -52,4 +52,6 @@ end
 
 local getservice = getService
 
-return {getService = getService, getservice = getservice}
+return {getService = getService, getservice = getservice, registerService = registerService, removeService = removeService}
+
+
