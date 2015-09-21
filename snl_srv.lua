@@ -82,6 +82,15 @@ local function onModemMessage(_,_,client,port,_,name,service,command)
       if v.service == service and v.name == name then
         dispenser.send(client,9261,v.address,v.info)
         return
+      elseif name == nil and v.service == service then
+        dispenser.send(client,9261,v.address,v.info)
+        return 
+      elseif service == nil and v.name == name then 
+        dispenser.send(client,9261,v.address,v.info)
+        return 
+      elseif service == "resolve" and name == v.address then 
+        dispenser.send(client,9261, v.name, v.address)
+        return 
       else
         dispenser.send(client,9261, nil, "not found")
       end

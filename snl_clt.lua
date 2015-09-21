@@ -42,7 +42,7 @@ local function registerService(service)
   return result, info
 end
 
-local function getService(hostname,service)
+local function getservice(hostname,service)
   dispenser.open(9261)
   dispenser.send("broadcast",9261,hostname,service)
   local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
@@ -50,8 +50,31 @@ local function getService(hostname,service)
   return addr,info
 end
 
-local getservice = getService
+local function getService(service, hostname)
+  dispenser.open(9261)
+  dispenser.send("broadcast",9261,hostname,service)
+  local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
+  dispenser.close(9261)
+  return addr,info
+end
 
-return {getService = getService, getservice = getservice, registerService = registerService, removeService = removeService}
+local function resolveName(name)
+  dispenser.open(9261)
+  dispenser.send("broadcast",9261,hostname,nil)
+  local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
+  dispenser.close(9261)
+  return addr,info
+end
+
+local function getName(address)
+  dispenser.open(9261)
+  dispenser.send("broadcast",9261,address,"resolve")
+  local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
+  dispenser.close(9261)
+  return addr,info
+end
+
+
+return {resolveName = resolveName, getService = getService, getservice = getservice, registerService = registerService, removeService = removeService}
 
 
