@@ -72,6 +72,7 @@ local function onModemMessage(_,_,client,port,_,name,service,command)
   if port ~= 9261 then return end
 
   if command == "registerService" then 
+    print("REGISTER")
     local result, info = addService(service, client, name, "")
     dispenser.send(client, 9261, result, info)
   elseif command == "removeService" then 

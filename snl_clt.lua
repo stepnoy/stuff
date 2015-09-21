@@ -26,7 +26,7 @@ local component = require("component")
 local dispenser = require("dispenser")
 local event = require("event")
 
-local function removeService(service) 
+local function removeService(service, hostname) 
   dispenser.open(9261)
   dispenser.send("broadcast",9261,hostname,service,"removeService")
   local _,_,_,_,_,result,info = event.pull("dispenser",_,_,9261)
@@ -34,7 +34,7 @@ local function removeService(service)
   return result, info
 end
 
-local function registerService(service) 
+local function registerService(service, hostname) 
   dispenser.open(9261)
   dispenser.send("broadcast",9261,hostname,service,"registerService")
   local _,_,_,_,_,result,info = event.pull("dispenser",_,_,9261)
@@ -60,7 +60,7 @@ end
 
 local function resolveName(name)
   dispenser.open(9261)
-  dispenser.send("broadcast",9261,hostname,nil)
+  dispenser.send("broadcast",9261,name,nil)
   local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
   dispenser.close(9261)
   return addr,info
