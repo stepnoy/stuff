@@ -26,17 +26,25 @@ local component = require("component")
 local dispenser = require("dispenser")
 local event = require("event")
 
+local lhostname
+
+local hfile = io.open("/etc/hostname","r")
+if hfile ~= nil then lhostname = hfile:read("*all") hfile:close() end
+
+
 local function removeService(service, hostname) 
+  local name = hostname or lhostname
   dispenser.open(9261)
-  dispenser.send("broadcast",9261,hostname,service,"removeService")
+  dispenser.send("broadcast",9261,name,service,"removeService")
   local _,_,_,_,_,result,info = event.pull("dispenser",_,_,9261)
   dispenser.close(9261)
   return result, info
 end
 
 local function registerService(service, hostname) 
+  local name = hostname or lhostname
   dispenser.open(9261)
-  dispenser.send("broadcast",9261,hostname,service,"registerService")
+  dispenser.send("broadcast",9261,name,service,"registerService")
   local _,_,_,_,_,result,info = event.pull("dispenser",_,_,9261)
   dispenser.close(9261)
   return result, info
@@ -72,6 +80,10 @@ local function getName(address)
   local _,_,_,_,_,addr,info = event.pull("dispenser",_,_,9261)
   dispenser.close(9261)
   return addr,info
+end
+
+local function registerInNetwork(name)
+  registerService("node", name)
 end
 
 

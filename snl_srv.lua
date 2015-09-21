@@ -72,12 +72,24 @@ local function onModemMessage(_,_,client,port,_,name,service,command)
   if port ~= 9261 then return end
 
   if command == "registerService" then 
-    print("REGISTER")
+    
     local result, info = addService(service, client, name, "")
     dispenser.send(client, 9261, result, info)
+    return
+
   elseif command == "removeService" then 
-    removeService(getID(service, name, address))
-    dispenser.send(client,9261, "OK")
+
+    for k,v in pairs(services) do
+      if v.service == service and v.address == client then
+        removeService(getID(service, name, client))
+        dispenser.send(client,9261, "OK")
+        return
+      end
+    end
+
+    dispenser.send(client,9261, nil, "not found")
+    return
+
   else
     for k,v in pairs(services) do
       if v.service == service and v.name == name then
