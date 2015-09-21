@@ -47,11 +47,12 @@ local function getID(service, name, address)
 end
  
 local function addService(service,address,name,info)
-  if services [getID(service, name, address)] ~= nil then
+  local id = getID(service, name, address or dispenser.hardware.modem.address)
+  
+  if services [id] ~= nil then
     return false, "already exists"
   end
 
-  local id = getID(service, name, address)
   services[id] = {
     service = service or "nop",
     address = address or dispenser.hardware.modem.address,
