@@ -75,6 +75,6 @@ local function getName(address)
 end
 
 
-return {resolveName = resolveName, getService = getService, getservice = getservice, registerService = registerService, removeService = removeService}
+return {getName = getName, resolveName = resolveName, getService = getService, getservice = getservice, registerService = registerService, removeService = removeService}
 
 
