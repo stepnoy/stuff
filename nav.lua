@@ -232,6 +232,8 @@ function clsNav:putMap(pos, value)
 
   local data = file:write(serialization.serialize(self.map[chunkName]))
 
+  print ("save to file")
+
   file:close()
 
   return true
