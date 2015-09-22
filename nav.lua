@@ -227,6 +227,13 @@ function clsNav:putMap(pos, value)
   self.map[chunkName]._updated = os.time()
   value._updated = os.time()
   self.map[chunkName][posNo] = utils.deepMerge(value, self.map[chunkName][posNo])
+
+  local file = io.open(MAP_PATH..chunkName,"rw")
+
+  local data = file:write(serialization.serialize(self.map[chunkName]))
+
+  file:close()
+
   return true
 end
 function clsNav:setPos(pos_or_face)
